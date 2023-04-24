@@ -1,7 +1,12 @@
 pipeline {
-    agent any
-    tools {
-        maven 'maven3.6.1'
+    // agent any
+    // tools {
+    //     maven 'maven3.6.1'
+    // }
+    agent {
+        docker {
+            image 'maven:3.9-eclipse-temurin-8-focal'
+        }
     }
     stages {
         // stage('Checkout'){
@@ -19,7 +24,7 @@ pipeline {
     }
     post {
         success {
-            archiveArtifacts artifacts: 'target/*.jar',fingerprint: true
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             deleteDir()
         }
     }
