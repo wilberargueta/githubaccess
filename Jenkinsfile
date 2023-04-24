@@ -5,7 +5,7 @@ pipeline {
     // }
     agent {
         docker {
-            image 'maven:3.9-eclipse-temurin-8-focal'
+            image 'maven:3.6.1'
         }
     }
     stages {
