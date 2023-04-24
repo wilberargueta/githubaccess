@@ -1,4 +1,4 @@
-pipeline{
+pipeline {
     agent any
     tools {
         maven 'maven3.6.1'
@@ -11,10 +11,16 @@ pipeline{
         //         url: 'git@github.com:wilberargueta/githubaccess.git'
         //     }
         // }
-          stage('Build'){
+        stage('Build') {
             steps {
                 sh 'mvn clean package -DskipTests -B -ntp'
             }
+        }
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: 'target/*.jar',
+            fingerprint: true
         }
     }
 }
