@@ -1,13 +1,13 @@
 pipeline {
-    // agent any
-    // tools {
-    //     maven 'maven3.6.1'
-    // }
-    agent {
-        docker {
-            image 'maven:3.6.1'
-        }
+    agent any
+    tools {
+        maven 'maven3.6.1'
     }
+    // agent {
+    //     docker {
+    //         image 'maven:3.6.1'
+    //     }
+    // }
     stages {
         // stage('Checkout'){
         //     steps {
