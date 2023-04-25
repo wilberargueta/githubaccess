@@ -21,6 +21,11 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+        stage('Sonarqube') {
+            steps {
+                sh 'mvn sonar:sonar -B -ntp'
+            }
+        }
     }
     post {
         success {
