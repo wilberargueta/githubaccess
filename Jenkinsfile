@@ -36,7 +36,7 @@ pipeline {
                         def snapshots = 'githubaccess-service-snapshot'
                         def server = Artifactory.server 'artifactory'
 
-                        def rtMaven = Artifactory.newMavenBuid()
+                        def rtMaven = Artifactory.newMavenBuild()
 
                         rtMaven.deployer server: server, releaseRepo: releases, snapshotRepo: snapshots
 
