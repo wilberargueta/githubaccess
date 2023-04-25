@@ -40,7 +40,7 @@ pipeline {
 
                         rtMaven.deployer server: server, releaseRepo: releases, snapshotRepo: snapshots
 
-                        def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean package -DskipTests -B -ntp'
+                        def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean package -DskipTests -B -ntp -Dartifactory.publish.artifacts=true -Dartifactory.publish.buildInfo=true'
 
                         server.publishBuildInfo  buildInfo
                     }
