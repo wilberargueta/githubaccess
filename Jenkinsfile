@@ -21,14 +21,33 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
-        stage('Sonarqube') {
+        // stage('Sonarqube') {
+        //     steps {
+        //         withCredentials([file(credentialsId: 'sonarqube-settings', variable: 'M2_SETTINGS')]) {
+        //             sh "mvn sonar:sonar -B -ntp -s ${M2_SETTINGS}"
+        //         }
+        //     }
+
+        stage('Artifactory') {
             steps {
-                withCredentials([file(credentialsId: 'sonarqube-settings', variable: 'M2_SETTINGS')]) {
-                    sh "mvn sonar:sonar -B -ntp -s ${M2_SETTINGS}"
-                }
+
+                    script {
+                        def releases = 'githubaccess-service-release'
+                        def snapshots = 'githubaccess-service-snapshot'
+                        def server = Artifactory.server 'artifactory'
+
+                        def rtMaven = Artifactory.newMavenBuid()
+
+                        rtMaven.deployer server: server, releaseRepo: releases, snapshotRepo: snapshots
+
+                        def buildInfo = rtMaven.run pom: 'pom.xml' goals: 'clean package -DskipTests -B -ntp'
+
+                        server.publishBuildInfo  buildInfo
+                    }
             }
         }
     }
+
     post {
         success {
             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
