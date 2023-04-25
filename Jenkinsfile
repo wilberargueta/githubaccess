@@ -23,7 +23,9 @@ pipeline {
         }
         stage('Sonarqube') {
             steps {
-                sh 'mvn sonar:sonar -B -ntp'
+                withCredentials([file(credentialsId: 'sonarqube-settings', variable: 'M2_SETTINGS')]) {
+                    sh "mvn sonar:sonar -B -ntp -s ${M2_SETTINGS}"
+                }
             }
         }
     }
